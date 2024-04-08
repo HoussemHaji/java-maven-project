@@ -7,9 +7,10 @@ pipeline {
     }
     stages {
         stage('Init') {
-            script{
-                app = Load('script.groovy')
-                
+            steps {
+                script{
+                    app = load 'script.groovy'
+                }
             }
         }
         stage('Build') {
