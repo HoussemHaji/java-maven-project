@@ -32,9 +32,11 @@ pipeline {
         stage('Deploy') {
             steps {
                 script{
+                    env.ENV = input message: 'Choose the environment to deploy', parameters: [choice(name: 'ENV', choices: ['DEV', 'STAGE', 'PROD'], description: 'Choose the environment to deploy')]
                     app.deployApp()
+                    echo "Deploying ${ENV} environment"
+
                 }
-                echo "Deploying version ${params.VERSION}"
             }
         }
     }
