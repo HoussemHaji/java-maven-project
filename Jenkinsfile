@@ -1,3 +1,4 @@
+def app
 pipeline {
     agent any
     parameters{
@@ -5,9 +6,18 @@ pipeline {
         booleanParam(name: 'IS_TEST', defaultValue: true, description: 'Check to run tests')
     }
     stages {
+        stage('Init') {
+            script{
+                app = Load('script.groovy')
+                
+            }
+        }
         stage('Build') {
             steps {
-                echo 'Building..'
+                script{
+                    app.buildApp()
+                } 
+
             }
         }
         stage('Test') {
@@ -20,7 +30,9 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying....'
+                script{
+                    app.deployApp()
+                }
                 echo "Deploying version ${params.VERSION}"
             }
         }
