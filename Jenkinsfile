@@ -5,6 +5,9 @@ pipeline {
         choice(name: 'VERSION', choices: ['1.0', '2.0', '3.0'], description: 'Choose the version to deploy')
         booleanParam(name: 'IS_TEST', defaultValue: true, description: 'Check to run tests')
     }
+    tools {
+        maven 'maven-3.9'
+    }
     stages {
         stage('Init') {
             steps {
@@ -13,10 +16,18 @@ pipeline {
                 }
             }
         }
-        stage('Build') {
+        stage('Build jar') {
             steps {
                 script{
-                    app.buildApp()
+                    app.buildJar()
+                } 
+
+            }
+        }
+        stage('Build image') {
+            steps {
+                script{
+                    app.buildImage()
                 } 
 
             }
